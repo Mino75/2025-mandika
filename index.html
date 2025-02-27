@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline OCR PWA</title>
+    <script src="style.js"></script>
+    <link rel="manifest" href="/manifest.json">
+
+</head>
+<body>
+    <h1>Offline OCR PWA</h1>
+    <select id="fileType">
+        <option value="image">Image</option>
+        <option value="pdf">PDF</option>
+        <option value="camera">Camera</option>
+    </select>
+    <input type="file" id="fileInput" accept="image/*,application/pdf">
+    <label for="langSelect">Select OCR Language:</label>
+    <select id="langSelect">
+    <option value="eng" selected>English</option>
+    <option value="fra">French</option>
+    <option value="spa">Spanish</option>
+    <option value="jpn">Japanese</option>
+    <option value="rus">Russian</option>
+    <option value="chi_sim">Chinese (Simplified)</option>
+    <option value="chi_tra">Chinese (Traditional)</option>
+    <option value="eng+fra+spa+jpn+rus+chi_sim+chi_tra">Multilangue (All Together)</option>
+    </select>
+    <button id="cameraButton" style="display:none;">Take Picture</button>
+    <video id="video" autoplay style="display:none;"></video>
+    <canvas id="imageCanvas"></canvas>
+    <button onclick="processFile()">Extract Text</button>
+    <button onclick="downloadText()">Download Extracted Text</button>
+    <p id="result"></p>
+    <script src="tesseract.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+    </script>
+    <div id="loader" style="display:none;">
+  <!-- Simple text loader, or replace with spinner graphic -->
+  <p>Processing... Please wait.</p>
+</div>
+</body>
+</html>
