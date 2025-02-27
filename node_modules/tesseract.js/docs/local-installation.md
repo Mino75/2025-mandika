@@ -9,30 +9,29 @@ Because of this we recommend loading `tesseract.js` from a CDN. But if you reall
 In Node.js environment, the only path you may want to customize is languages/langPath.
 
 ```javascript
-Tesseract.recognize(image, langs, {
-  workerPath: 'https://unpkg.com/tesseract.js@v2.0.0/dist/worker.min.js',
+const worker = await createWorker('eng', 1, {
+  workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@v5.0.0/dist/worker.min.js',
   langPath: 'https://tessdata.projectnaptha.com/4.0.0',
-  corePath: 'https://unpkg.com/tesseract.js-core@v2.0.0/tesseract-core.wasm.js',
-})
-```
-
-Or
-
-```javascript
-const worker = createWorker({
-  workerPath: 'https://unpkg.com/tesseract.js@v2.0.0/dist/worker.min.js',
-  langPath: 'https://tessdata.projectnaptha.com/4.0.0',
-  corePath: 'https://unpkg.com/tesseract.js-core@v2.0.0/tesseract-core.wasm.js',
+  corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0',
 });
 ```
 
 ### workerPath
-A string specifying the location of the [worker.js](./dist/worker.min.js) file.
+A string specifying the location of the `worker.js` file.
 
 ### langPath
-A string specifying the location of the tesseract language files, with default value 'https://tessdata.projectnaptha.com/4.0.0'. Language file URLs are calculated according to the formula `langPath + langCode + '.traineddata.gz'`.
+A string specifying the location of the tesseract language files. Language file URLs are calculated according to the formula `langPath + langCode + '.traineddata.gz'`.  If `langPath` is not specified by the user, then the correct language data will be automatically downloaded from the jsDelivr CDN. 
 
 ### corePath
-A string specifying the location of the [tesseract.js-core library](https://github.com/naptha/tesseract.js-core), with default value 'https://unpkg.com/tesseract.js-core@v2.0.0/tesseract-core.wasm.js' (fallback to tesseract-core.asm.js when WebAssembly is not available).
+A string specifying the location of the [tesseract.js-core](https://github.com/naptha/tesseract.js-core) files, with default value 'https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0'.
 
-Another WASM option is 'https://unpkg.com/tesseract.js-core@v2.0.0/tesseract-core.js' which is a script that loads 'https://unpkg.com/tesseract.js-core@v2.0.0/tesseract-core.wasm'. But it fails to fetch at this moment.
+If you set the `corePath` argument, be sure to set it to a directory that contains **all 4** of these files:
+
+1. `tesseract-core.wasm.js`
+2. `tesseract-core-simd.wasm.js`
+3. `tesseract-core-lstm.wasm.js`
+4. `tesseract-core-simd-lstm.wasm.js`
+
+Tesseract.js will pick the correct file based on your users' device and the `createWorker` options. 
+
+To avoid breaking old code, when `corePath` is set to a specific `.js` file (e.g. `https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.0.0/tesseract-core.wasm.js`), it will load that file regardless of whether the users' device supports SIMD or not.  This behavior only exists to preserve backwards compatibility—setting `corePath` to a specific `.js` file is strongly discouraged.  Doing so will either result in much slower performance (if `tesseract-core.wasm.js` is specified) or failure to run on certain devices (if `tesseract-core-simd.wasm.js` is specified).
