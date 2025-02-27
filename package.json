@@ -14,7 +14,7 @@
       "copyfiles": "^2.4.1"
     },
     "scripts": {
-    "postinstall": "node copyTesseract.js"
+    "______postinstall": "node copyTesseract.js"
     }
   }
   
