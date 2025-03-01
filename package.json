@@ -2,7 +2,7 @@
     "name": "mandika",
     "version": "1.0.0",
     "description": "Offline OCR Progressive Web App using Node and Express.",
-    "main": "app.js",
+    "main": "main.js",
     "author": "Your Name",
     "license": "MIT",
     "dependencies": {

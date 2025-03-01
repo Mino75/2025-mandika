@@ -1,3 +1,17 @@
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js').then(registration => {
+    console.log('Service Worker Registered');
+
+    // Listen for messages from the service worker.
+    navigator.serviceWorker.addEventListener('message', event => {
+      if (event.data.action === 'reload') {
+        console.log('New version available, reloading page');
+        window.location.reload();
+      }
+    });
+  });
+}
+
 Tesseract.langPath = '/tessdata';
 
 document.getElementById("fileInput").addEventListener("change", async function(event) {
