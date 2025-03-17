@@ -1,8 +1,3 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(reg => console.log('Service Worker Registered:', reg))
-    .catch(err => console.error('Service Worker Registration Failed:', err));
-}
 
 
 Tesseract.langPath = '/tessdata';
@@ -112,3 +107,10 @@ function processFile() {
       alert("Please select a file first.");
     }
   }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker Registered:', reg))
+      .catch(err => console.error('Service Worker Registration Failed:', err));
+  }
+  
