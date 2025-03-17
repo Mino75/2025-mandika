@@ -4,8 +4,10 @@ const TEMP_CACHE = 'mandika-temp-v2';
 const ASSETS  = [
   '/',
   '/index.html',
-  '/style.js',
+  '/styles.js',
   '/main.js',
+  '/manifest.json',
+  '/favicon.ico',
   '/tesseract.min.js',
   '/tessdata/eng.traineddata',
   '/tessdata/fra.traineddata',
